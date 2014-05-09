@@ -1,14 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Banshee.SoundCloud/SoundCloudSource.cs">
-    <Files>
-      <File FileName="Banshee.SoundCloud/SoundCloudIO.cs" Line="23" Column="18" />
-      <File FileName="Banshee.SoundCloud/SoundCloudSource.cs" Line="5" Column="30" />
-      <File FileName="Banshee.SoundCloud/ArtistAdder.cs" Line="5" Column="14" />
-      <File FileName="Banshee.SoundCloud/SC.cs" Line="4" Column="3" />
-      <File FileName="Banshee.SoundCloud/SoundCloudSourceContents.cs" Line="4" Column="3" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

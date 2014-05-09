@@ -70,15 +70,42 @@
       <Package>banshee-hyena-gui</Package>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="Banshee.Core">
+      <HintPath>..\..\..\..\..\..\..\usr\lib\banshee\Banshee.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Banshee.Services">
+      <HintPath>..\..\..\..\..\..\..\usr\lib\banshee\Banshee.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Banshee.ThickClient">
+      <HintPath>..\..\..\..\..\..\..\usr\lib\banshee\Banshee.ThickClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Banshee.Widgets">
+      <HintPath>..\..\..\..\..\..\..\usr\lib\banshee\Banshee.Widgets.dll</HintPath>
+    </Reference>
+    <Reference Include="gdk-sharp">
+      <HintPath>..\..\..\..\..\..\..\usr\lib\cli\gdk-sharp-3.0\gdk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gtk-sharp">
+      <HintPath>..\..\..\..\..\..\..\usr\lib\cli\gtk-sharp-2.0\gtk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Hyena">
+      <HintPath>..\..\..\..\..\..\..\usr\lib\banshee\Hyena.dll</HintPath>
+    </Reference>
+    <Reference Include="Hyena.Data.Sqlite">
+      <HintPath>..\..\..\..\..\..\..\usr\lib\banshee\Hyena.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Hyena.Gui">
+      <HintPath>..\..\..\..\..\..\..\usr\lib\banshee\Hyena.Gui.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
-        <MonoDevelop.Autotools.MakefileInfo IntegrationEnabled="true" RelativeMakefileName="Makefile.am">
-          <BuildFilesVar Sync="true" Name="SOURCES" />
+        <MonoDevelop.Autotools.MakefileInfo IntegrationEnabled="True" RelativeMakefileName="Makefile.am">
+          <BuildFilesVar Sync="True" Name="SOURCES" />
           <DeployFilesVar />
-          <ResourcesVar Sync="true" Name="RESOURCES" />
+          <ResourcesVar Sync="True" Name="RESOURCES" />
           <OthersVar />
           <GacRefVar />
           <AsmRefVar />
