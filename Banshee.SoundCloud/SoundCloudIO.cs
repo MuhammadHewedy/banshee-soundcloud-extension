@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Banshee.SoundCloud
 {
@@ -101,38 +100,6 @@ namespace Banshee.SoundCloud
 			}, null);
 		}
 
-		/*
-		private static JsonArray ServerRequest(string requestUrl)
-		{
-		    try
-		    {
-		        HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
-		        using(HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-		        {
-		            if(response.StatusCode != HttpStatusCode.OK) {
-						string s = String.Format("Server error(HTTP {0}: {1}).",
-		                						response.StatusCode, response.StatusDescription);
-						throw new Exception(s);
-					}
-					
-		            Stream			receiveStream = response.GetResponseStream();
-					Deserializer	d = new Deserializer(receiveStream);
-					object			jd = d.Deserialize();
-					JsonArray		ja = jd as JsonArray;
-					
-					response.Close();
-					receiveStream.Close();
-					return ja;
-		        }
-		    }
-		    catch(Exception e)
-		    {
-		        SC.log(e.Message);
-		        return null;
-		    }
-		}
-		*/
-		
 		public static DatabaseTrackInfo makeTrackInfo(JsonObject o)
 		{
 			JsonObject user = (JsonObject)o["user"];

@@ -28,6 +28,8 @@ using Hyena.Widgets;
 
 namespace Banshee.SoundCloud
 {
+
+	// TODO DELETE no longer used
     public class SoundSearcher : Gtk.Dialog
     {
         private Button				save_button;

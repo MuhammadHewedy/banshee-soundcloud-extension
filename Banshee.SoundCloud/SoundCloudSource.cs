@@ -19,7 +19,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Mono.Unix;
 using Gtk;
 
@@ -55,32 +54,65 @@ namespace Banshee.SoundCloud
 
             AfterInitialized();
 			
-			// Have OnAddArtist() respond to an 'Add' being performed in the GTK window.
             InterfaceActionService uia_service = ServiceManager.Get<InterfaceActionService>();
 			uia_service.GlobalActions.Add(
-                new ActionEntry("AddSoundCloudArtistAction", Stock.Find,
-                    Catalog.GetString("Add SoundCloud Artist"), null,
-			        Catalog.GetString("Add a SoundCloud artist or playlist"),
-                    OnAddArtist)
+                new ActionEntry("AddSoundCloudArtistAction", Stock.Add,
+			                Catalog.GetString("Add a SoundCloud Owner"), null,
+			                Catalog.GetString("Add a SoundCloud Owner"),
+			                new AddArtistHandler(this).toolBarButtonClicked)
             );
             uia_service.GlobalActions["AddSoundCloudArtistAction"].IsImportant = false;
 
             ui_id = uia_service.UIManager.AddUiFromResource("GlobalUI.xml");
 
-            Properties.SetString("ActiveSourceUIResource", "ActiveSourceUI.xml");
-            Properties.Set<bool>("ActiveSourceUIResourcePropagate", true);
-            Properties.Set<System.Reflection.Assembly>("ActiveSourceUIResource.Assembly",
+			initProperties();
+           
+            ServiceManager.PlayerEngine.TrackIntercept += OnPlayerEngineTrackIntercept;
+            
+            TrackEqualHandler = delegate(DatabaseTrackInfo a, TrackInfo b) {
+				RadioTrackInfo r = b as RadioTrackInfo;
+                return r != null && DatabaseTrackInfo.TrackEqual(
+                    r.ParentTrack as DatabaseTrackInfo, a);
+                   
+            };
+			
+			/**
+			 * TODO:
+			 * 		Figure out how to tell Banshee where to find the track artwork. See below.
+			 *
+			TrackArtworkIdHandler = delegate(DatabaseTrackInfo a) {
+				return;
+			};
+			*/
+			SC.log("Initialized");
+        }
+		/*
+		 * This may be the place to tell Banshee about artwork re: MetadataService
+		 * 
+		 *private void OnTrackInfoUpdated (Banshee.MediaEngine.PlayerEventArgs args)
+        {
+            RadioTrackInfo radio_track = ServiceManager.PlaybackController.CurrentTrack as RadioTrackInfo;
+            if (radio_track != null) {
+                Banshee.Metadata.MetadataService.Instance.Lookup (radio_track);
+            }
+        }*/
+
+
+		private void initProperties(){
+			Properties.SetString("ActiveSourceUIResource", "ActiveSourceUI.xml");
+			Properties.Set<bool>("ActiveSourceUIResourcePropagate", true);
+			Properties.Set<System.Reflection.Assembly>("ActiveSourceUIResource.Assembly",
 			                                           typeof(SoundCloudSource).Assembly);
 
-            Properties.SetString("GtkActionPath", "/SoundCloudContextMenu");
-            Properties.Set<bool>("Nereid.SourceContentsPropagate", false);
-			
-            Properties.Set<ISourceContents>("Nereid.SourceContents",
+			Properties.SetString("GtkActionPath", "/SoundCloudContextMenu");
+			Properties.Set<bool>("Nereid.SourceContentsPropagate", false);
+
+			Properties.Set<ISourceContents>("Nereid.SourceContents",
 			                                new LazyLoadSourceContents<SoundCloudSourceContents>());
 
-            Properties.Set<string>("SearchEntryDescription", Catalog.GetString("Search your SoundCloud artists"));
-            
-            Properties.SetString("TrackView.ColumnControllerXml", String.Format(@"
+			Properties.Set<string>("SearchEntryDescription", Catalog.GetString("Search your SoundCloud artists"));
+
+			Properties.SetString("TrackView.ColumnControllerXml", String.Format(@"
                 <column-controller>
                   <!--<column modify-default=""IndicatorColumn"">
                     <renderer type=""Banshee.Podcasting.Gui.ColumnCellPodcastStatusIndicator"" />
@@ -118,41 +150,12 @@ namespace Banshee.SoundCloud
                   <add-default column=""UriColumn"" />
                   <sort-column direction=""asc"">artist</sort-column>
                 </column-controller>",
-                Catalog.GetString("Track"),
-                Catalog.GetString("Artist"),
-                Catalog.GetString("Description"),
-			    Catalog.GetString("Year")
-            ));
-
-            ServiceManager.PlayerEngine.TrackIntercept += OnPlayerEngineTrackIntercept;
-            
-            TrackEqualHandler = delegate(DatabaseTrackInfo a, TrackInfo b) {
-				RadioTrackInfo r = b as RadioTrackInfo;
-                return r != null && DatabaseTrackInfo.TrackEqual(
-                    r.ParentTrack as DatabaseTrackInfo, a);
-                   
-            };
-			
-			/**
-			 * TODO:
-			 * 		Figure out how to tell Banshee where to find the track artwork. See below.
-			 *
-			TrackArtworkIdHandler = delegate(DatabaseTrackInfo a) {
-				return;
-			};
-			*/
-			SC.log("Initialized");
-        }
-		/*
-		 * This may be the place to tell Banshee about artwork re: MetadataService
-		 * 
-		 *private void OnTrackInfoUpdated (Banshee.MediaEngine.PlayerEventArgs args)
-        {
-            RadioTrackInfo radio_track = ServiceManager.PlaybackController.CurrentTrack as RadioTrackInfo;
-            if (radio_track != null) {
-                Banshee.Metadata.MetadataService.Instance.Lookup (radio_track);
-            }
-        }*/
+			                                                                    Catalog.GetString("Track"),
+			                                                                    Catalog.GetString("Artist"),
+			                                                                    Catalog.GetString("Description"),
+			                                                                    Catalog.GetString("Year")
+			                                                                    ));
+		}
 
         public override int Count { get { return 0; } }
 		
@@ -210,60 +213,6 @@ namespace Banshee.SoundCloud
 
             return true;
         }
-		
-        private void OnAddArtist(object o, EventArgs args)
-        {
-            SoundSearcher editor = new SoundSearcher();
-			// Add OnArtistAdditionResponse to the list of event handlers
-			// for the artist adder.
-            editor.Response += OnArtistAdditionResponse;
-            editor.Show();
-        }
-		
-        private void OnArtistAdditionResponse(object o, ResponseArgs args)
-        {
-            SoundSearcher editor =(SoundSearcher)o;
-            bool destroy = true;
-
-            try {
-                if(args.ResponseId == ResponseType.Ok) {
-                    if(String.IsNullOrEmpty(editor.ArtistName)) {
-                        destroy = false;
-                        editor.ErrorMessage = Catalog.GetString("Please provide a artist name");
-                    } else {
-						IO.MakeRequest("people", editor.ArtistName, proccessPeopleResponse, editor.ArtistName);
-						destroy = true;
-					}
-                }
-            } finally {
-                if(destroy) {
-					// Remove response-handler reference.
-                    editor.Response -= OnArtistAdditionResponse;
-                    editor.Destroy();
-                }
-            }
-        }
-
-		private void proccessPeopleResponse(JsonArray results, String artistName){
-			foreach(JsonObject artist in results) {
-				string artist_name = (string)artist["username"];
-
-				if (artist_name == artistName) {
-					IO.MakeRequest("getalltracks", (int)artist["id"], 
-					                                  processTracksResponse, artistName);
-				}
-			}
-		}
-
-		private void processTracksResponse(JsonArray tracks, String dummy){
-			foreach(JsonObject t in tracks) {
-				DatabaseTrackInfo track = IO.makeTrackInfo(t);
-				track.PrimarySource = this;
-				track.IsLive = true;
-				track.Save();
-				SC.log("  added track: " + track.TrackTitle);
-			}
-		}
 		
         #region IBasicPlaybackController implementation
 

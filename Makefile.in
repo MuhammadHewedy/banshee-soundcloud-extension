@@ -355,7 +355,10 @@ SOURCES = \
 	Banshee.SoundCloud/SC.cs \
 	Banshee.SoundCloud/SoundCloudIO.cs \
 	Banshee.SoundCloud/SoundCloudSource.cs \
-	Banshee.SoundCloud/SoundCloudSourceContents.cs
+	Banshee.SoundCloud/SoundCloudSourceContents.cs \
+	Banshee.SoundCloud/BaseDialog.cs \
+	Banshee.SoundCloud/IToolbarButtonHandler.cs \
+	Banshee.SoundCloud/AddArtistHandler.cs
 
 RESOURCES = \
 	Resources/ActiveSourceUI.xml \
