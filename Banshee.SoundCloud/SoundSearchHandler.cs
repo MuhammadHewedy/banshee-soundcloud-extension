@@ -11,7 +11,7 @@ namespace Banshee.SoundCloud
 	public class SoundSearchHandler : ActionEntryHandler
 	{
 		public SoundSearchHandler(PrimarySource primarySource) : 
-			base(primarySource, "Search Sounds", "Type part of sound name to search", "", Stock.Add, SCResources.TRACKS)
+			base(primarySource, "Search Sounds", "Type part of sound name to search", "", Stock.Find, SCResources.TRACKS)
 		{
 			setOnResponseCallback(processTrackResponse);
 		}

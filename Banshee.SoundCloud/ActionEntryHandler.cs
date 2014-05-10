@@ -4,6 +4,7 @@ using Banshee.Sources;
 
 using Hyena.Json;
 
+using Banshee.ServiceStack;
 using Gtk;
 
 namespace Banshee.SoundCloud
