@@ -69,7 +69,7 @@ namespace Banshee.SoundCloud
 			return ServerRequest(url);
 		}
 
-		public static JsonArray ServerRequest(string requestUrl)
+		private static JsonArray ServerRequest(string requestUrl)
 		{
 		    try
 		    {
