@@ -1,7 +1,10 @@
 using System;
 
+using Hyena.Json;
+
 using Gtk;
 using Banshee.Sources;
+using Banshee.Collection.Database;
 
 namespace Banshee.SoundCloud
 {
@@ -10,31 +13,17 @@ namespace Banshee.SoundCloud
 		public SoundSearchHandler(PrimarySource primarySource) : 
 			base(primarySource, "Search Sounds", "Type part of sound name to search", "", Stock.Add, SCResources.TRACKS)
 		{
+			setOnResponseCallback(processTrackResponse);
 		}
 
-		private void onSearchDialogResponse(object o, ResponseArgs args){
-			/*
-			BaseDialog editor =(BaseDialog)o;
-			bool destroy = true;
-
-			try {
-				if(args.ResponseId == ResponseType.Ok) {
-					if(String.IsNullOrEmpty(editor.Entry)) {
-						destroy = false;
-						editor.ErrorMessage = Catalog.GetString("Please provide a artist name");
-					} else {
-						IO.MakeRequest("people", editor.Entry, proccessPeopleResponse);
-						destroy = true;
-					}
-				}
-			} finally {
-				if(destroy) {
-					// Remove response-handler reference.
-					editor.Response -= onSearchDialogResponse;
-					editor.Destroy();
-				}
+		private void processTrackResponse(JsonArray tracks){
+			foreach(JsonObject t in tracks) {
+				DatabaseTrackInfo track = IO.makeTrackInfo(t);
+				track.PrimarySource = primarySource;
+				track.IsLive = true;
+				track.Save();
+				SC.log("  added track: " + track.TrackTitle);
 			}
-			*/
 		}
 	}
 }

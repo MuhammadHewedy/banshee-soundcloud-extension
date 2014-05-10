@@ -1,16 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Banshee.SoundCloud/SoundCloudSource.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Banshee.SoundCloud/SoundCloudIO.cs">
     <Files>
-      <File FileName="Banshee.SoundCloud/AddArtistHandler.cs" Line="18" Column="3" />
-      <File FileName="Banshee.SoundCloud/SoundCloudSource.cs" Line="57" Column="47" />
+      <File FileName="Banshee.SoundCloud/ActionEntryHandler.cs" Line="57" Column="21" />
+      <File FileName="Banshee.SoundCloud/SoundSearchHandler.cs" Line="19" Column="15" />
+      <File FileName="Banshee.SoundCloud/SoundCloudIO.cs" Line="57" Column="31" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="SoundCloud" expanded="True">
             <Node name="Banshee.SoundCloud" expanded="True">
-              <Node name="SoundCloudSource.cs" selected="True" />
+              <Node name="SoundCloudIO.cs" selected="True" />
             </Node>
           </Node>
         </State>
