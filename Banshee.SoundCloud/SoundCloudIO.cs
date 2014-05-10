@@ -32,6 +32,11 @@ namespace Banshee.SoundCloud
 {
 	public static class IO
 	{
+		public static JsonArray MakeRequest(string request, int data)
+		{
+			return MakeRequest(request, data.ToString());
+		}
+
 		public static JsonArray MakeRequest(string request, string data)
 		{
 			string url = "";
@@ -63,12 +68,7 @@ namespace Banshee.SoundCloud
 			}
 			return ServerRequest(url);
 		}
-		
-		public static JsonArray MakeRequest(string request, int data)
-		{
-			return MakeRequest(request, data.ToString());
-		}
-		
+
 		public static JsonArray ServerRequest(string requestUrl)
 		{
 		    try
@@ -113,13 +113,13 @@ namespace Banshee.SoundCloud
 			return track;
 		}
 		
-		public static int extractYear(JsonObject track)
+		private static int extractYear(JsonObject track)
 		{
 			string y = (string)track["created_at"];
 			return Convert.ToInt32(y.Substring(0, 4));
 		}
 		
-		public static string GetStreamURLFromTrack(JsonObject track)
+		private static string GetStreamURLFromTrack(JsonObject track)
 		{
 			string waveform_url =(string)track["waveform_url"];
 			string url_id = waveform_url.Substring(21);		// chop off leading URL

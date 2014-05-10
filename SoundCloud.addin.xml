@@ -6,8 +6,8 @@
     copyright="Copyright © 2012 Paul Mackin. Licensed under the Apache license."
     name="SoundCloud"
     category="Community Extensions"
-    description="Play songs from SoundCloud"
-    author="Paul Mackin"
+    description="Play Sounds from SoundCloud"
+    author="Paul Mackin - modified by Muhammad Hewedy"
     url="http://banshee-project.org/"
     defaultEnabled="false">
 

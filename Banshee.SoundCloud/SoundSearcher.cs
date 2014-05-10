@@ -40,7 +40,7 @@ namespace Banshee.SoundCloud
 
         public SoundSearcher() : base()
         {
-			string title = Catalog.GetString("Add new SoundCloud artist");
+			string title = Catalog.GetString("Search SoundCloud");
 			
             AccelGroup accel_group = new AccelGroup();
             AddAccelGroup(accel_group);
@@ -78,7 +78,7 @@ namespace Banshee.SoundCloud
             header.Show();
 
             Label message = new Label();
-            message.Text = Catalog.GetString("Enter the name of the artist you'd like to add.");
+            message.Text = Catalog.GetString("Enter search keyword");
             message.Xalign = 0.0f;
             message.Wrap = true;
             message.Show();
@@ -87,7 +87,7 @@ namespace Banshee.SoundCloud
             table.RowSpacing = 6;
             table.ColumnSpacing = 6;
 
-            artist_entry = AddEntryRow(Catalog.GetString("Artist Name:"));
+            artist_entry = AddEntryRow(Catalog.GetString("Keyword"));
 
             table.ShowAll();
 

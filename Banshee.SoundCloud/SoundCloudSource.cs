@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Mono.Unix;
 using Gtk;
 
@@ -57,7 +58,7 @@ namespace Banshee.SoundCloud
 			// Have OnAddArtist() respond to an 'Add' being performed in the GTK window.
             InterfaceActionService uia_service = ServiceManager.Get<InterfaceActionService>();
 			uia_service.GlobalActions.Add(
-                new ActionEntry("AddSoundCloudArtistAction", Stock.Add,
+                new ActionEntry("AddSoundCloudArtistAction", Stock.Find,
                     Catalog.GetString("Add SoundCloud Artist"), null,
 			        Catalog.GetString("Add a SoundCloud artist or playlist"),
                     OnAddArtist)
@@ -236,6 +237,11 @@ namespace Banshee.SoundCloud
 							string artist_name = (string)artist["username"];
 							if (artist_name == editor.ArtistName) {
 								//SC.log(artist.ToString());
+
+//								Task<JsonArray> task = IO.MakeRequest("getalltracks", 
+//								                                      (int)artist["id"]);
+//								JsonArray tracks = task.Result;
+//
 								JsonArray tracks = IO.MakeRequest("getalltracks",
 								                                            (int)artist["id"]);
 								//SC.log(tracks.ToString());
