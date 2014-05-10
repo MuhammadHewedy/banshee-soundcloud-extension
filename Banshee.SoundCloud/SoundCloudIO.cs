@@ -27,17 +27,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Banshee.SoundCloud
 {
 	public static class IO
 	{
-		public static JsonArray MakeRequest(string request, int data)
+		public static void MakeRequest(string request, int data, 
+		                               Action<JsonArray, String> func, String artistName)
 		{
-			return MakeRequest(request, data.ToString());
+			MakeRequest(request, data.ToString(), func, artistName);
 		}
 
-		public static JsonArray MakeRequest(string request, string data)
+		public static void MakeRequest(string request, string data, 
+		                               Action<JsonArray, String> func, String artistName)
 		{
 			string url = "";
 			
@@ -66,9 +69,39 @@ namespace Banshee.SoundCloud
 				default:
 					throw new Exception("Invalid request");
 			}
-			return ServerRequest(url);
+			ServerRequest(url, func, artistName);
 		}
 
+		static HttpWebRequest request; 
+		private static void ServerRequest(String requestUrl, Action<JsonArray, String> func, 
+		                                  String artistName)
+		{
+			SC.log("reqeusting " + requestUrl);
+			request = WebRequest.Create(requestUrl) as HttpWebRequest;
+
+			request.BeginGetResponse((IAsyncResult result) => {
+				HttpWebResponse response = request.EndGetResponse(result) as HttpWebResponse;
+
+				if(response.StatusCode != HttpStatusCode.OK) {
+					string s = String.Format("Server error(HTTP {0}: {1}).",
+					                         response.StatusCode, response.StatusDescription);
+					throw new Exception(s);
+				}
+
+				Stream			receiveStream = response.GetResponseStream();
+				Deserializer	d = new Deserializer(receiveStream);
+				object			jd = d.Deserialize();
+				JsonArray		ja = jd as JsonArray;
+
+				func(ja, artistName);
+
+				response.Close();
+				receiveStream.Close();
+
+			}, null);
+		}
+
+		/*
 		private static JsonArray ServerRequest(string requestUrl)
 		{
 		    try
@@ -98,6 +131,7 @@ namespace Banshee.SoundCloud
 		        return null;
 		    }
 		}
+		*/
 		
 		public static DatabaseTrackInfo makeTrackInfo(JsonObject o)
 		{

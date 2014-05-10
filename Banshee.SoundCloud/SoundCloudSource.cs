@@ -231,33 +231,7 @@ namespace Banshee.SoundCloud
                         destroy = false;
                         editor.ErrorMessage = Catalog.GetString("Please provide a artist name");
                     } else {
-						JsonArray results = IO.MakeRequest("people", editor.ArtistName);
-						
-						foreach(JsonObject artist in results) {
-							string artist_name = (string)artist["username"];
-							if (artist_name == editor.ArtistName) {
-								//SC.log(artist.ToString());
-
-//								Task<JsonArray> task = IO.MakeRequest("getalltracks", 
-//								                                      (int)artist["id"]);
-//								JsonArray tracks = task.Result;
-//
-								JsonArray tracks = IO.MakeRequest("getalltracks",
-								                                            (int)artist["id"]);
-								//SC.log(tracks.ToString());
-								SC.log(String.Format("Artist: {0}, Track Count: {1}",
-								                     artist_name, tracks.Count));
-								
-								foreach(JsonObject t in tracks) {
-									DatabaseTrackInfo track = IO.makeTrackInfo(t);
-									track.PrimarySource = this;
-				                    track.IsLive = true;
-									track.Save();
-									SC.log("  added track: " + track.TrackTitle);
-								}
-							}
-						}
-						// If all is well, set the window to close.
+						IO.MakeRequest("people", editor.ArtistName, proccessPeopleResponse, editor.ArtistName);
 						destroy = true;
 					}
                 }
@@ -269,6 +243,27 @@ namespace Banshee.SoundCloud
                 }
             }
         }
+
+		private void proccessPeopleResponse(JsonArray results, String artistName){
+			foreach(JsonObject artist in results) {
+				string artist_name = (string)artist["username"];
+
+				if (artist_name == artistName) {
+					IO.MakeRequest("getalltracks", (int)artist["id"], 
+					                                  processTracksResponse, artistName);
+				}
+			}
+		}
+
+		private void processTracksResponse(JsonArray tracks, String dummy){
+			foreach(JsonObject t in tracks) {
+				DatabaseTrackInfo track = IO.makeTrackInfo(t);
+				track.PrimarySource = this;
+				track.IsLive = true;
+				track.Save();
+				SC.log("  added track: " + track.TrackTitle);
+			}
+		}
 		
         #region IBasicPlaybackController implementation
 
