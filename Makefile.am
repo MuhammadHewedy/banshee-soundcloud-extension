@@ -4,7 +4,7 @@ LINK = $(BANSHEE_LIBS)
 SOURCES =  \
 	Banshee.SoundCloud/AddArtistHandler.cs \
 	Banshee.SoundCloud/BaseDialog.cs \
-	Banshee.SoundCloud/IToolbarButtonHandler.cs \
+	Banshee.SoundCloud/ActionEntryHandler.cs \
 	Banshee.SoundCloud/SC.cs \
 	Banshee.SoundCloud/SoundCloudIO.cs \
 	Banshee.SoundCloud/SoundCloudSource.cs \

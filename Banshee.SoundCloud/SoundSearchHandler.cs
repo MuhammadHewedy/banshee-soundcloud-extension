@@ -5,7 +5,7 @@ using Banshee.Sources;
 
 namespace Banshee.SoundCloud
 {
-	public class SoundSearchHandler : IToolbarButtonHandler
+	public class SoundSearchHandler : ActionEntryHandler
 	{
 		public SoundSearchHandler(PrimarySource primarySource) : base(primarySource){}
 
@@ -16,6 +16,7 @@ namespace Banshee.SoundCloud
 		}
 
 		private void onSearchDialogResponse(object o, ResponseArgs args){
+			/*
 			BaseDialog editor =(BaseDialog)o;
 			bool destroy = true;
 
@@ -25,7 +26,7 @@ namespace Banshee.SoundCloud
 						destroy = false;
 						editor.ErrorMessage = Catalog.GetString("Please provide a artist name");
 					} else {
-						IO.MakeRequest("people", editor.Entry, proccessPeopleResponse, editor.Entry);
+						IO.MakeRequest("people", editor.Entry, proccessPeopleResponse);
 						destroy = true;
 					}
 				}
@@ -36,6 +37,7 @@ namespace Banshee.SoundCloud
 					editor.Destroy();
 				}
 			}
+			*/
 		}
 	}
 }

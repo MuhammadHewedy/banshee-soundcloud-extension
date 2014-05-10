@@ -3,11 +3,11 @@ using Banshee.Sources;
 
 namespace Banshee.SoundCloud
 {
-	public abstract class IToolbarButtonHandler
+	public abstract class ActionEntryHandler
 	{
 		protected PrimarySource primarySource;
 
-		public IToolbarButtonHandler(PrimarySource primarySource){
+		public ActionEntryHandler(PrimarySource primarySource){
 			this.primarySource = primarySource;
 		}
 

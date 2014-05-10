@@ -93,7 +93,7 @@
     <Compile Include="Banshee.SoundCloud\SoundCloudIO.cs" />
     <Compile Include="Banshee.SoundCloud\SC.cs" />
     <Compile Include="Banshee.SoundCloud\BaseDialog.cs" />
-    <Compile Include="Banshee.SoundCloud\IToolbarButtonHandler.cs" />
+    <Compile Include="Banshee.SoundCloud\ActionEntryHandler.cs" />
     <Compile Include="Banshee.SoundCloud\AddArtistHandler.cs" />
     <Compile Include="Banshee.SoundCloud\SoundSearchHandler.cs" />
   </ItemGroup>
