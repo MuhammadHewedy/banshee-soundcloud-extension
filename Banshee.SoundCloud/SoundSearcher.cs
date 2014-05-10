@@ -1,5 +1,5 @@
 /*
- * ArtistAdder.cs
+ * SoundSearcher.cs
  *
  *
  * Copyright 2012 Paul Mackin
@@ -28,7 +28,7 @@ using Hyena.Widgets;
 
 namespace Banshee.SoundCloud
 {
-    public class ArtistAdder : Gtk.Dialog
+    public class SoundSearcher : Gtk.Dialog
     {
         private Button				save_button;
         private Entry				artist_entry;
@@ -38,7 +38,7 @@ namespace Banshee.SoundCloud
 
         Table table;
 
-        public ArtistAdder() : base()
+        public SoundSearcher() : base()
         {
 			string title = Catalog.GetString("Add new SoundCloud artist");
 			

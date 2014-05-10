@@ -212,7 +212,7 @@ namespace Banshee.SoundCloud
 		
         private void OnAddArtist(object o, EventArgs args)
         {
-            ArtistAdder editor = new ArtistAdder();
+            SoundSearcher editor = new SoundSearcher();
 			// Add OnArtistAdditionResponse to the list of event handlers
 			// for the artist adder.
             editor.Response += OnArtistAdditionResponse;
@@ -221,7 +221,7 @@ namespace Banshee.SoundCloud
 		
         private void OnArtistAdditionResponse(object o, ResponseArgs args)
         {
-            ArtistAdder editor =(ArtistAdder)o;
+            SoundSearcher editor =(SoundSearcher)o;
             bool destroy = true;
 
             try {

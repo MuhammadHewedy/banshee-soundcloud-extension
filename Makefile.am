@@ -2,7 +2,7 @@ ASSEMBLY = Banshee.SoundCloud
 LINK = $(BANSHEE_LIBS)
 
 SOURCES =  \
-	Banshee.SoundCloud/ArtistAdder.cs \
+	Banshee.SoundCloud/SoundSearcher.cs \
 	Banshee.SoundCloud/SC.cs \
 	Banshee.SoundCloud/SoundCloudIO.cs \
 	Banshee.SoundCloud/SoundCloudSource.cs \
