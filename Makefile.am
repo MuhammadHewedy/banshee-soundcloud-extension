@@ -9,7 +9,7 @@ SOURCES =  \
 	Banshee.SoundCloud/SoundCloudIO.cs \
 	Banshee.SoundCloud/SoundCloudSource.cs \
 	Banshee.SoundCloud/SoundCloudSourceContents.cs \
-	Banshee.SoundCloud/SoundSearcher.cs
+	Banshee.SoundCloud/SoundSearchHandler.cs
 
 
 RESOURCES =  \

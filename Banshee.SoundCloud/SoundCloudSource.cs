@@ -45,6 +45,9 @@ namespace Banshee.SoundCloud
         private uint ui_id;
 		const int sort_order = 190;
 
+		// list af ActionEntry used 
+		private IList<ActionEntry> actionEntryList = null;
+
         public SoundCloudSource() : base(Catalog.GetString("SoundCloud"),
 		                                 Catalog.GetString("SoundCloud"), "soundcloud", 52)
         {
@@ -53,14 +56,14 @@ namespace Banshee.SoundCloud
             IsLocal = false;
 
             AfterInitialized();
-			
+			actionEntryList = getActionEntryList();
+
             InterfaceActionService uia_service = ServiceManager.Get<InterfaceActionService>();
-			uia_service.GlobalActions.Add(
-                new ActionEntry("AddSoundCloudArtistAction", Stock.Add,
-			                Catalog.GetString("Add a SoundCloud Owner"), null,
-			                Catalog.GetString("Add a SoundCloud Owner"),
-			                new AddArtistHandler(this).toolBarButtonClicked)
-            );
+
+			foreach (ActionEntry actionEntry in actionEntryList) {
+				uia_service.GlobalActions.Add(actionEntry);
+			}
+
             uia_service.GlobalActions["AddSoundCloudArtistAction"].IsImportant = false;
 
             ui_id = uia_service.UIManager.AddUiFromResource("GlobalUI.xml");
@@ -86,6 +89,24 @@ namespace Banshee.SoundCloud
 			*/
 			SC.log("Initialized");
         }
+
+		/**
+		 * To add an action entry, you have to configure in both ActiveSourceUI.xml and GlobalUI.xml
+		*/
+		private IList<ActionEntry> getActionEntryList(){
+			IList<ActionEntry> list = new List<ActionEntry>();
+			list.Add(new ActionEntry("AddSoundCloudArtistAction", Stock.Add,
+			                          Catalog.GetString("Add a SoundCloud Owner"), null,
+			                          Catalog.GetString("Add a SoundCloud Owner"),
+			                          new AddArtistHandler(this).toolBarButtonClicked));
+
+			list.Add(new ActionEntry("SearchSoundCloudAction", Stock.Find,
+			                         Catalog.GetString("Search"), null,
+			                         Catalog.GetString("Search SoundCloud"),
+			                         new AddArtistHandler(this).toolBarButtonClicked));
+			return list;
+		}
+
 		/*
 		 * This may be the place to tell Banshee about artwork re: MetadataService
 		 * 
@@ -195,7 +216,10 @@ namespace Banshee.SoundCloud
 
             if(ui_id > 0) {
                 uia_service.UIManager.RemoveUi(ui_id);
-                uia_service.GlobalActions.Remove("AddSoundCloudArtistAction");
+
+				foreach (ActionEntry actionEntry in actionEntryList) {
+					uia_service.GlobalActions.Remove(actionEntry.name);
+				}
                 ui_id = 0;
             }
 

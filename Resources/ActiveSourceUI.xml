@@ -3,6 +3,7 @@
     <menu name="MediaMenu" action="MediaMenuAction">
       <placeholder name="BelowOpenLocation">
         <menuitem action="AddSoundCloudArtistAction" />
+        <menuitem action="SearchSoundCloudAction" />
       </placeholder>
     </menu>
   </menubar>
@@ -10,6 +11,7 @@
   <toolbar name="HeaderToolbar">
       <placeholder name="SourceActions">
           <toolitem action="AddSoundCloudArtistAction" />
+          <toolitem action="SearchSoundCloudAction" />
       </placeholder>
   </toolbar>
 </ui>
