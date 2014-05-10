@@ -356,6 +356,7 @@ SOURCES = \
 	Banshee.SoundCloud/SoundCloudSource.cs \
 	Banshee.SoundCloud/SoundCloudSourceContents.cs \
 	Banshee.SoundCloud/BaseDialog.cs \
+	Banshee.SoundCloud/SCResources.cs \
 	Banshee.SoundCloud/ActionEntryHandler.cs \
 	Banshee.SoundCloud/AddArtistHandler.cs \
 	Banshee.SoundCloud/SoundSearchHandler.cs

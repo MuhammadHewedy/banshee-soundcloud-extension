@@ -44,23 +44,23 @@ namespace Banshee.SoundCloud
 			switch(request)
 			{
 				// Search in Tracks, People and Groups.
-				case "tracks":
+				case SCResources.TRACKS:
 					url = "http://api.soundcloud.com/tracks.json?q=" + data + "&client_id=" + SC.APPKEY;
 					break;
-				case "people":
+				case SCResources.PEOPLE:
 					url = "http://api.soundcloud.com/users.json?q=" + data + "&client_id=" + SC.APPKEY;
 					break;
-				case "groups":
+				case SCResources.GROUPS:
 					url = "http://api.soundcloud.com/groups.json?q=" + data + "&client_id=" + SC.APPKEY;
 					break;
 				// Retrieve a user's info, sets and tracks
-				case "getuser":
+				case SCResources.GET_USER:
 					url = "http://api.soundcloud.com/users/" + data + ".json?client_id=" + SC.APPKEY;
 					break;
-				case "getsets":
+				case SCResources.GET_SETS:
 					url = "http://api.soundcloud.com/playlists/" + data + ".json?client_id=" + SC.APPKEY;
 					break;
-				case "getalltracks":
+				case SCResources.GET_ALL_TRACKS:
 					url = "http://api.soundcloud.com/users/" + data + "/tracks.json?client_id=" + SC.APPKEY;
 					break;
 				default:

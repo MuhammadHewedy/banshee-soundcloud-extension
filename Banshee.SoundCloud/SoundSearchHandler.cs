@@ -7,12 +7,9 @@ namespace Banshee.SoundCloud
 {
 	public class SoundSearchHandler : ActionEntryHandler
 	{
-		public SoundSearchHandler(PrimarySource primarySource) : base(primarySource){}
-
-		public override void actionButtonClicked(object o, EventArgs args){
-			BaseDialog editor = new BaseDialog("Search Sounds", "Type part of sound name to search", "", Stock.Find);
-			editor.Response += onSearchDialogResponse;
-			editor.Show();
+		public SoundSearchHandler(PrimarySource primarySource) : 
+			base(primarySource, "Search Sounds", "Type part of sound name to search", "", Stock.Add, SCResources.TRACKS)
+		{
 		}
 
 		private void onSearchDialogResponse(object o, ResponseArgs args){

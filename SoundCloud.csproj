@@ -96,6 +96,7 @@
     <Compile Include="Banshee.SoundCloud\ActionEntryHandler.cs" />
     <Compile Include="Banshee.SoundCloud\AddArtistHandler.cs" />
     <Compile Include="Banshee.SoundCloud\SoundSearchHandler.cs" />
+    <Compile Include="Banshee.SoundCloud\SCResources.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SoundCloud.addin.xml" />

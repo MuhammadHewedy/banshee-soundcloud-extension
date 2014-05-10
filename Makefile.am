@@ -2,10 +2,11 @@ ASSEMBLY = Banshee.SoundCloud
 LINK = $(BANSHEE_LIBS)
 
 SOURCES =  \
+	Banshee.SoundCloud/ActionEntryHandler.cs \
 	Banshee.SoundCloud/AddArtistHandler.cs \
 	Banshee.SoundCloud/BaseDialog.cs \
-	Banshee.SoundCloud/ActionEntryHandler.cs \
 	Banshee.SoundCloud/SC.cs \
+	Banshee.SoundCloud/SCResources.cs \
 	Banshee.SoundCloud/SoundCloudIO.cs \
 	Banshee.SoundCloud/SoundCloudSource.cs \
 	Banshee.SoundCloud/SoundCloudSourceContents.cs \

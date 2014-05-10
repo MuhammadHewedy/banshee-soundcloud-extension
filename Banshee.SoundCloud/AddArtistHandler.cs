@@ -13,39 +13,10 @@ namespace Banshee.SoundCloud
 {
 	public class AddArtistHandler : ActionEntryHandler
 	{
-		private String editorEntryVal;
-
-		public AddArtistHandler(PrimarySource primarySource) : base(primarySource){}
-
-		public override void actionButtonClicked(object o, EventArgs args){
-			BaseDialog editor = new BaseDialog("Add Sound Owner", "Add exact sound owner name to find (ex TvQuran)", "", Stock.Add);
-			editor.Response += OnArtistAdditionResponse;
-			editor.Show();
-		}
-
-		// TODO move this method up to the parent class
-		private void OnArtistAdditionResponse(object o, ResponseArgs args)
+		public AddArtistHandler(PrimarySource primarySource) : 
+			base(primarySource, "Add Sound Owner", "Add exact sound owner name to find (ex TvQuran)", "", Stock.Add, SCResources.PEOPLE)
 		{
-			BaseDialog editor = (BaseDialog)o;
-			bool destroy = true;
-
-			try {
-				if(args.ResponseId == ResponseType.Ok) {
-					if(String.IsNullOrEmpty(editorEntryVal = editor.Entry)) {
-						destroy = false;
-						editor.ErrorMessage = Catalog.GetString("Please provide owner name");
-					} else {
-						IO.MakeRequest("people", editor.Entry, proccessPeopleResponse);
-						destroy = true;
-					}
-				}
-			} finally {
-				if(destroy) {
-					// Remove response-handler reference.
-					editor.Response -= OnArtistAdditionResponse;
-					editor.Destroy();
-				}
-			}
+			setOnResponseCallback(proccessPeopleResponse);
 		}
 
 		private void proccessPeopleResponse(JsonArray results){
@@ -53,7 +24,7 @@ namespace Banshee.SoundCloud
 				string artist_name = (string)artist["username"];
 
 				if (artist_name == editorEntryVal) {
-					IO.MakeRequest("getalltracks", (int)artist["id"], processTracksResponse);
+					IO.MakeRequest(SCResources.GET_ALL_TRACKS, (int)artist["id"], processTracksResponse);
 				}
 			}
 		}
