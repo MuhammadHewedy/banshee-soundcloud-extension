@@ -13,28 +13,27 @@ namespace Banshee.SoundCloud
 {
 	public class AddArtistHandler : IToolbarButtonHandler
 	{
+		protected BaseDialog editor;
+
 		public AddArtistHandler(PrimarySource primarySource) : base(primarySource){}
 
 		public override void toolBarButtonClicked(object o, EventArgs args){
-			BaseDialog editor = new BaseDialog("Add Sound Owner", "Add exact sound owner name to find (ex TvQuran)", "", Stock.Add);
-			// Add OnArtistAdditionResponse to the list of event handlers
-			// for the artist adder.
+			editor = new BaseDialog("Add Sound Owner", "Add exact sound owner name to find (ex TvQuran)", "", Stock.Add);
 			editor.Response += OnArtistAdditionResponse;
 			editor.Show();
 		}
 
 		private void OnArtistAdditionResponse(object o, ResponseArgs args)
 		{
-			BaseDialog editor =(BaseDialog)o;
 			bool destroy = true;
 
 			try {
 				if(args.ResponseId == ResponseType.Ok) {
-					if(String.IsNullOrEmpty(editor.ArtistName)) {
+					if(String.IsNullOrEmpty(editor.Entry)) {
 						destroy = false;
 						editor.ErrorMessage = Catalog.GetString("Please provide a artist name");
 					} else {
-						IO.MakeRequest("people", editor.ArtistName, proccessPeopleResponse, editor.ArtistName);
+						IO.MakeRequest("people", editor.Entry, proccessPeopleResponse);
 						destroy = true;
 					}
 				}
@@ -47,18 +46,17 @@ namespace Banshee.SoundCloud
 			}
 		}
 
-		private void proccessPeopleResponse(JsonArray results, String artistName){
+		private void proccessPeopleResponse(JsonArray results){
 			foreach(JsonObject artist in results) {
 				string artist_name = (string)artist["username"];
 
-				if (artist_name == artistName) {
-					IO.MakeRequest("getalltracks", (int)artist["id"], 
-					               processTracksResponse, artistName);
+				if (artist_name == editor.Entry) {
+					IO.MakeRequest("getalltracks", (int)artist["id"], processTracksResponse, artist_name);
 				}
 			}
 		}
 
-		private void processTracksResponse(JsonArray tracks, String dummy){
+		private void processTracksResponse(JsonArray tracks){
 			foreach(JsonObject t in tracks) {
 				DatabaseTrackInfo track = IO.makeTrackInfo(t);
 				track.PrimarySource = primarySource;

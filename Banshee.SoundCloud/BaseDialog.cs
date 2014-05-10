@@ -12,7 +12,7 @@ namespace Banshee.SoundCloud
 	public class BaseDialog : Gtk.Dialog
 	{
 		private Button				save_button;
-		private Entry				artist_entry;
+		private Entry				entry;
 		private Alignment			error_container;
 		private Label				error;
 
@@ -67,7 +67,7 @@ namespace Banshee.SoundCloud
 			table.RowSpacing = 6;
 			table.ColumnSpacing = 6;
 
-			artist_entry = AddEntryRow(Catalog.GetString(textTitle));
+			entry = AddEntryRow(Catalog.GetString(textTitle));
 
 			table.ShowAll();
 
@@ -101,7 +101,7 @@ namespace Banshee.SoundCloud
 			save_button.AddAccelerator("activate", accel_group,(uint)Gdk.Key.Return,
 			                           0, Gtk.AccelFlags.Visible);
 
-			artist_entry.HasFocus = true;
+			entry.HasFocus = true;
 
 			error_container = new Alignment(0.0f, 0.0f, 1.0f, 1.0f);
 			error_container.TopPadding = 6;
@@ -125,7 +125,7 @@ namespace Banshee.SoundCloud
 
 			table.Attach(error_container, 0, 2, 6, 7, AttachOptions.Expand | AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
 
-			artist_entry.Changed += OnFieldsChanged;
+			entry.Changed += OnFieldsChanged;
 
 			OnFieldsChanged(this, EventArgs.Empty);
 		}
@@ -151,17 +151,17 @@ namespace Banshee.SoundCloud
 		private void OnFieldsChanged(object o, EventArgs args)
 		{
 			// When the button becomes sensitive it can be executed.
-			save_button.Sensitive = artist_entry.Text.Trim().Length > 0;
+			save_button.Sensitive = entry.Text.Trim().Length > 0;
 		}
 
 		public void FocusUri()
 		{
-			artist_entry.HasFocus = true;
-			artist_entry.SelectRegion(0, artist_entry.Text.Length);
+			entry.HasFocus = true;
+			entry.SelectRegion(0, entry.Text.Length);
 		}
 
-		public string ArtistName {
-			get { return artist_entry.Text.Trim(); }
+		public string Entry {
+			get { return entry.Text.Trim(); }
 		}
 
 		public string ErrorMessage {

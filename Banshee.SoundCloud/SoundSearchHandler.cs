@@ -9,10 +9,33 @@ namespace Banshee.SoundCloud
 	{
 		public SoundSearchHandler(PrimarySource primarySource) : base(primarySource){}
 
-		public void toolBarButtonClicked(object o, EventArgs args){
-			BaseDialog editor = new BaseDialog("Search Sounds", "Type part of sound name to search", "Sound contains", Stock.Find);
-			//editor.Response += OnArtistAdditionResponse;
+		public override void actionButtonClicked(object o, EventArgs args){
+			BaseDialog editor = new BaseDialog("Search Sounds", "Type part of sound name to search", "", Stock.Find);
+			editor.Response += onSearchDialogResponse;
 			editor.Show();
+		}
+
+		private void onSearchDialogResponse(object o, ResponseArgs args){
+			BaseDialog editor =(BaseDialog)o;
+			bool destroy = true;
+
+			try {
+				if(args.ResponseId == ResponseType.Ok) {
+					if(String.IsNullOrEmpty(editor.Entry)) {
+						destroy = false;
+						editor.ErrorMessage = Catalog.GetString("Please provide a artist name");
+					} else {
+						IO.MakeRequest("people", editor.Entry, proccessPeopleResponse, editor.Entry);
+						destroy = true;
+					}
+				}
+			} finally {
+				if(destroy) {
+					// Remove response-handler reference.
+					editor.Response -= onSearchDialogResponse;
+					editor.Destroy();
+				}
+			}
 		}
 	}
 }

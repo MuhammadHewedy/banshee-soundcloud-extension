@@ -98,12 +98,12 @@ namespace Banshee.SoundCloud
 			list.Add(new ActionEntry("AddSoundCloudArtistAction", Stock.Add,
 			                          Catalog.GetString("Add a SoundCloud Owner"), null,
 			                          Catalog.GetString("Add a SoundCloud Owner"),
-			                          new AddArtistHandler(this).toolBarButtonClicked));
+			                         new AddArtistHandler(this).actionButtonClicked));
 
 			list.Add(new ActionEntry("SearchSoundCloudAction", Stock.Find,
 			                         Catalog.GetString("Search"), null,
 			                         Catalog.GetString("Search SoundCloud"),
-			                         new AddArtistHandler(this).toolBarButtonClicked));
+			                         new SoundSearchHandler(this).actionButtonClicked));
 			return list;
 		}
 

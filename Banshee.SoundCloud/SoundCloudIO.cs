@@ -32,14 +32,12 @@ namespace Banshee.SoundCloud
 {
 	public static class IO
 	{
-		public static void MakeRequest(string request, int data, 
-		                               Action<JsonArray, String> func, String artistName)
+		public static void MakeRequest(string request, int data,  Action<JsonArray> func)
 		{
-			MakeRequest(request, data.ToString(), func, artistName);
+			MakeRequest(request, data.ToString(), func);
 		}
 
-		public static void MakeRequest(string request, string data, 
-		                               Action<JsonArray, String> func, String artistName)
+		public static void MakeRequest(string request, string data,  Action<JsonArray> func)
 		{
 			string url = "";
 			
@@ -68,12 +66,11 @@ namespace Banshee.SoundCloud
 				default:
 					throw new Exception("Invalid request");
 			}
-			ServerRequest(url, func, artistName);
+			ServerRequest(url, func);
 		}
 
 		static HttpWebRequest request; 
-		private static void ServerRequest(String requestUrl, Action<JsonArray, String> func, 
-		                                  String artistName)
+		private static void ServerRequest(String requestUrl, Action<JsonArray> func)
 		{
 			SC.log("reqeusting " + requestUrl);
 			request = WebRequest.Create(requestUrl) as HttpWebRequest;
@@ -92,8 +89,8 @@ namespace Banshee.SoundCloud
 				object			jd = d.Deserialize();
 				JsonArray		ja = jd as JsonArray;
 
-				func(ja, artistName);
-
+				func(ja);
+			
 				response.Close();
 				receiveStream.Close();
 

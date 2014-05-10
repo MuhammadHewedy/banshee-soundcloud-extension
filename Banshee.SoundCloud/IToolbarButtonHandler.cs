@@ -11,6 +11,6 @@ namespace Banshee.SoundCloud
 			this.primarySource = primarySource;
 		}
 
-		public abstract void toolBarButtonClicked(object o, EventArgs args);
+		public abstract void actionButtonClicked(object o, EventArgs args);
 	}
 }
